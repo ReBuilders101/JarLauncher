@@ -105,6 +105,10 @@ namespace JarLauncher
 
         private bool UpdateExecutables(string jreFolder)
         {
+            if (!jreFolder.EndsWith("\\"))
+            {
+                jreFolder = jreFolder + "\\";
+            }
             if (Directory.Exists(jreFolder))
             {
                 var javaPath  = jreFolder + @"bin\java.exe";
@@ -165,7 +169,21 @@ namespace JarLauncher
 
         private void JreButtonClick(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog cofd;
+            CommonOpenFileDialog cofd = new CommonOpenFileDialog();
+            cofd.IsFolderPicker = true;
+            cofd.Title = "Pick JRE Folder";
+            cofd.Multiselect = false;
+            var result = cofd.ShowDialog(this);
+            if(result == CommonFileDialogResult.Ok)
+            {
+                var folderPath = cofd.FileName;
+                var valid = UpdateExecutables(folderPath);
+                ExecutablesFound = valid;
+                if(!valid)
+                {
+                    MessageBox.Show(@"Invalid JRE folder. The folder must contain \bin\ and \lib\ subfolders, and the java executables must exist in the \bin\ folder.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

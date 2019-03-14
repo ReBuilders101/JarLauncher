@@ -24,7 +24,7 @@
                     </Label.Style>
                 </Label>
                 <Button Content="Change jre folder path" Margin="2" Padding="4 2" Click="JreButtonClick"/>
-                <Label>
+                <Label Margin="30 0">
                     <Hyperlink NavigateUri="https://github.com/ReBuilders101/JarLauncher" RequestNavigate="Hyperlink_RequestNavigate">
                         Repository
                     </Hyperlink>
