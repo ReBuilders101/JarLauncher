@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +54,18 @@ namespace JarLauncher
         public MainWindow()
         {
             InitializeComponent();
+            Console.WriteLine(ExePath());
         }
+
+        public static string ExePath()
+        {
+            return new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+        }
+
+        private string SelectedFilePath = "";
+        private string JavaExePath = "";
+        private string JavawExePath = "";
+
 
         private void DropButtonDrop(object sender, DragEventArgs e)
         {
@@ -60,7 +73,15 @@ namespace JarLauncher
             {
                 var paths = (string[])e.Data.GetData(DataFormats.FileDrop);
                 e.Effects = DragDropEffects.Link;
-                if (paths.Length > 0) Console.WriteLine(paths[0]);
+                if (paths.Length > 0)
+                {
+                    var path = paths[0];
+                    if(File.Exists(path))
+                    {
+                        SelectedFilePath = path;
+                        FileSelected = true;
+                    }
+                }
             }
         }
 
@@ -80,17 +101,37 @@ namespace JarLauncher
 
         }
 
+        private void UpdateExecutables()
+        {
+            
+        }
+
         private void DropButtonClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Title = "Select jar file to open";
             ofd.Filter = "Jar files (*.jar)|*.jar|All files (*.*)|*.*";
             var result = ofd.ShowDialog(this);
+            if(result == true) //can't just use if(result), because result is of type bool? -> If it looks stupid but it works, it's not stupid
+            {
+                var path = ofd.FileName;
+                if (File.Exists(path))
+                {
+                    SelectedFilePath = path;
+                    FileSelected = true;
+                }
+            }
         }
 
         private void QuitButtonClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            string link = e.Uri.ToString();
+            Process.Start(link);
         }
     }
 }

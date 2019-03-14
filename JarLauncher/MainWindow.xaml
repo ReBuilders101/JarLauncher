@@ -8,7 +8,7 @@
         Title="Execute Jar File" Height="400" Width="600"
         x:Name="MainWindowXAML">
     <DockPanel LastChildFill="True">
-        <DockPanel LastChildFill="True" DockPanel.Dock="Bottom">
+        <DockPanel LastChildFill="True" DockPanel.Dock="Bottom" Margin="5">
             <Button Content="Quit" Margin="5 2" Padding="25 3" DockPanel.Dock="Right" Background="LightPink" Click="QuitButtonClick"/>
             <StackPanel Orientation="Horizontal">
                 <Label MinWidth="135" HorizontalAlignment="Center">
@@ -25,6 +25,11 @@
                 </Label>
                 <Button Content="Change java.exe path" Margin="2" Padding="4 2"/>
                 <Button Content="Change javaw.exe path" Margin="2" Padding="4 2"/>
+                <Label>
+                    <Hyperlink NavigateUri="https://github.com/ReBuilders101/JarLauncher" RequestNavigate="Hyperlink_RequestNavigate">
+                        Repository
+                    </Hyperlink>
+                </Label>
             </StackPanel>
         </DockPanel>
         <Grid>
