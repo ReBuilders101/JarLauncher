@@ -100,7 +100,20 @@ namespace JarLauncher
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
         {
-
+            if(UseProgramWindow.IsChecked == true) //bool? != bool
+            {
+                Process process = new Process();
+                process.StartInfo.FileName = JavawExePath; //Windowed
+                process.StartInfo.Arguments = "-jar " + SelectedFilePath;
+                process.Start();
+            }
+            else
+            {
+                Process process = new Process();
+                process.StartInfo.FileName = "cmd.exe"; //Cmd for output
+                process.StartInfo.Arguments = "/k " + JavaExePath + " -jar " + SelectedFilePath;
+                process.Start();
+            }
         }
 
         private bool UpdateExecutables(string jreFolder)
