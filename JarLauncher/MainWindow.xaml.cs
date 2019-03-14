@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Microsoft.WindowsAPICodePack.Dialogs;
+
 namespace JarLauncher
 {
     /// <summary>
@@ -159,6 +161,11 @@ namespace JarLauncher
         {
             string link = e.Uri.ToString();
             Process.Start(link);
+        }
+
+        private void JreButtonClick(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog cofd;
         }
     }
 }
