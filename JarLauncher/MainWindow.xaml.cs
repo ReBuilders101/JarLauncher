@@ -54,7 +54,7 @@ namespace JarLauncher
         public MainWindow()
         {
             InitializeComponent();
-            Console.WriteLine(ExePath());
+            UpdateExecutables();
         }
 
         public static string ExePath()
@@ -101,9 +101,36 @@ namespace JarLauncher
 
         }
 
+        private bool UpdateExecutables(string jreFolder)
+        {
+            if (Directory.Exists(jreFolder))
+            {
+                var javaPath  = jreFolder + @"bin\java.exe";
+                var javawPath = jreFolder + @"bin\javaw.exe";
+                if (File.Exists(javaPath) && File.Exists(javawPath))
+                {
+                    JavaExePath = javaPath;
+                    JavawExePath = javawPath;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private void UpdateExecutables()
         {
-            
+            var folderPath = ExePath();
+            var lastBS = folderPath.LastIndexOf('\\');
+            folderPath = folderPath.Substring(0, lastBS);
+            folderPath = folderPath + @"\jre\";
+            ExecutablesFound = UpdateExecutables(folderPath);
         }
 
         private void DropButtonClick(object sender, RoutedEventArgs e)
